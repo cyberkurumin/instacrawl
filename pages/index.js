@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import { useFormik } from 'formik'
 import Summary from '../components/account/summary'
 import PostList from '../components/account/postsList'
+import React from 'react'
 
 
 const validate = values => {
@@ -13,34 +13,34 @@ const validate = values => {
     return errors
 }
 
-const Home = () => {
+class Home extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            name: null
+        }
+    }
 
-  const formik = useFormik({
-      initialValues: {
-          profile: ''
-      },
-      validate,
-      onSubmit: values => {
-          console.log(values.profile)
-      }
-  })
+    changeName() {
+        console.log('Hello')
+        this.setState(
+            { name: 'Jorge' }
+        )
+    }
 
-  return (
-      <div>
-          <form onSubmit={ formik.handleSubmit }>
+    render() { return (
+        <div>
             <div>
-                {formik.errors.profile ? <div>{formik.errors.profile}</div> : null}
-                <label htmlFor='profile'>Instagram Profile</label><br />
-                <input type='text' name='profile' onChange={ formik.handleChange } value={ formik.values.profile } />
-            </div>
-            <div>
-                <button type='submit' >Launch Research</button>
-            </div>
-          </form>
-          <Summary></Summary>
-          <PostList></PostList>
-      </div>
-  )
-}
+             <label htmlFor='profile'>Instagram Profile</label><br />
+        <input type='text' name='profile' />
+        </div>
+        <div>
+        <button type='submit' onClick={this.changeName.bind(this)} >Launch Research</button>
+        </div>
+        <Summary name={this.state.name}></Summary>
+        <PostList></PostList>
+        </div>
+    )
+    }}
 
 export default Home;
